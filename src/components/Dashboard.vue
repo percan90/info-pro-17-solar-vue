@@ -76,32 +76,13 @@
           </div>
           <!-- Main row -->
 
-          <div class="row">
+            <div class="row">
 
-          <!-- Highcharts.js -->
-                      <div class="col-lg-6 col-md-6 col-xs-12">
-                          <h3>
-                            Voltage Graph
-                            <small>Watch voltage</small>
-                        </h3>
-                          <div id="container-voltage">
+                <!-- Highcharts.js -->
+                <GraphVoltage />
 
-<!-- JS code -->
-                          </div>
-                      </div>
-
-                      <div class="col-lg-6 col-md-6 col-xs-12">
-                          <h3>
-                            Electricity Current Graph
-                            <small>Watch current</small></h3>
-                        </h3>
-                          <div id="container-current">
-
-
-
-                          </div>
-                      </div>
-                  </div>
+                <GraphCurrent />
+            </div>
 
           <!-- /.row (main row) -->
           <div class="row">
@@ -119,8 +100,11 @@
 </template>
 
 <script>
+import GraphCurrent from './GraphCurrent'
+import GraphVoltage from './GraphVoltage'
 export default {
   name: 'Dashboard',
+  components: {GraphVoltage, GraphCurrent},
   data () {
     return {
 
@@ -132,122 +116,9 @@ created() {
 },
 methods: {
     solarvoltage () {
-        $(function () {
-            var myChartVoltage = Highcharts.chart('container-voltage', {
-
-            title: {
-                text: 'Voltage'
-            },
-
-            // subtitle: {
-            //     text: 'Source: thesolarfoundation.com'
-            // },
-
-            xAxis: {
-                type: 'datetime'
-            },
-
-            yAxis: {
-                title: {
-                    text: 'Voltage'
-                }
-            },
-
-            plotOptions: {
-                series: {
-                    pointStart: Date.UTC(2017, 9, 11),
-                    pointInterval: 1800 * 1000 // half hour
-                    //pointInterval: 24 * 3600 * 1000 // one day
-                }
-            },
-
-            series: [{
-                name: 'Voltage in',
-                data: [10,10.5,11,11.5,12,12.5,13,13.5,14,14.5]
-            }, {
-                name: 'Battery voltage',
-                data: [12,12.5,12,12,12,12,12,12,12,12]
-            }, {
-                name: 'Voltage out',
-                data: [11, 11, 11, 11, 11, 0, 0, 0, 0, 0]
-            }],
-
-            responsive: {
-                rules: [{
-                    condition: {
-                        maxWidth: 500
-                    },
-                    chartOptions: {
-                        legend: {
-                            layout: 'horizontal',
-                            align: 'center',
-                            verticalAlign: 'bottom'
-                        }
-                    }
-                }]
-            }
-
-        });
-    });
+        
 },
 solarcurrent(){
-    $(function () {
-        var myChartCurrent = Highcharts.chart('container-current', {
-
-        title: {
-            text: 'Electricity Current'
-        },
-
-        // subtitle: {
-        //     text: 'Source: thesolarfoundation.com'
-        // },
-
-        xAxis: {
-            type: 'datetime'
-        },
-
-        yAxis: {
-            title: {
-                text: 'Current'
-            }
-        },
-
-        plotOptions: {
-            series: {
-                pointStart: Date.UTC(2017, 9, 11),
-                pointInterval: 1800 * 1000 // half hour
-                //pointInterval: 24 * 3600 * 1000 // one day
-            }
-        },
-
-        series: [{
-            name: 'Current in',
-            data: [1,1,1.25,1.5,1.75,2,3,3,3,3]
-        }, {
-            name: 'Battery current',
-            data: [-2,-2,-1,0,1,2,3,3,3,3]
-        }, {
-            name: 'Current out',
-            data: [3,3,3,3,3,2,0,1,1,1]
-        }],
-
-        responsive: {
-            rules: [{
-                condition: {
-                    maxWidth: 500
-                },
-                chartOptions: {
-                    legend: {
-                        layout: 'horizontal',
-                        align: 'center',
-                        verticalAlign: 'bottom'
-                    }
-                }
-            }]
-        }
-
-    });
-    });
 }
 },
 }
