@@ -17,7 +17,8 @@
               <!-- small box -->
               <div class="small-box bg-aqua">
                 <div class="inner">
-                  <h3>12.0 <sup style="font-size: 20px">V</sup></h3>
+                    <!-- show last battery status -->
+                  <h3>{{cpBatteryVoltage}} <sup style="font-size: 20px">V</sup></h3>
 
                   <p>Battery voltage</p>
                 </div>
@@ -32,7 +33,7 @@
               <!-- small box -->
               <div class="small-box bg-green">
                 <div class="inner">
-                  <h3>5.34 <sup style="font-size: 20px">A</sup></h3>
+                  <h3>{{cpCurrentConsumption}} <sup style="font-size: 20px">A</sup></h3>
 
                   <p>Current consumption</p>
                 </div>
@@ -47,7 +48,7 @@
               <!-- small box -->
               <div class="small-box bg-yellow">
                 <div class="inner">
-                  <h3>4.31 <sup style="font-size: 20px">A</sup></h3>
+                  <h3>{{cpCurrentCharging}} <sup style="font-size: 20px">A</sup></h3>
 
                   <p>Current charging</p>
                 </div>
@@ -81,7 +82,7 @@
                 <!-- Highcharts.js -->
                 <GraphVoltage />
 
-                <GraphCurrent />
+                <GraphCurrent v-if="podaci" :graphData="podaci" />
             </div>
 
           <!-- /.row (main row) -->
@@ -107,20 +108,34 @@ export default {
   components: {GraphVoltage, GraphCurrent},
   data () {
     return {
-
+      podaci: null,//[{"i1":1,"i2":4},{"i1":2,"i2":6}]
+      // Control Panel small box sample data
+      cpBatteryVoltage:12.0,
+      cpCurrentConsumption:5.45,
+      cpCurrentCharging:4.31
     }
-},
-created() {
-    this.solarvoltage();
-    this.solarcurrent();
-},
-methods: {
-    solarvoltage () {
-        
-},
-solarcurrent(){
-}
-},
+    },
+    created() {
+        let vm = this;
+        // get json data
+        $.get("https://solarprojekt.000webhostapp.com/getJSON.php").then(data => {
+          //console.log(data);
+          vm.podaci = data;
+          // get only last data
+          vm.cpBatteryVoltage = data[data.length-1].u2;
+          vm.cpCurrentCharging = data[data.length-1].i1;
+          vm.cpCurrentConsumption = Math.abs(parseFloat(data[data.length-1].i1) - parseFloat(data[data.length-1].i2));
+        })
+
+    },
+    methods: {
+        solarvoltage () {
+
+        },
+        solarcurrent() {
+
+        }
+    },
 }
 </script>
 
