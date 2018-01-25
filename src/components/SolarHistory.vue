@@ -21,7 +21,7 @@
         <div class="content" style="min-height:100px !important;">
             <div class="container-settings">
             <div class="controls-row row">
-                <div class="form-group col-lg-4 col-md-3 col-xs-12">
+                <div class="form-group col-lg-6 col-md-12 col-xs-12">
                     <h3>Choose date range<br>
                     <small>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</small></h3>
                     <div class="form-group">
@@ -33,7 +33,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group col-lg-4 col-md-3 col-xs-12">
+                <!-- <div class="form-group col-lg-4 col-md-3 col-xs-12">
                     <h3 style="visibility: hidden;">Choose date<br>
                     <small>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</small></h3>
                     <div class="form-group">
@@ -44,9 +44,9 @@
                             </span>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
-                <div class="form-group col-lg-4 col-md-3 col-xs-12">
+                <!-- <div class="form-group col-lg-4 col-md-3 col-xs-12">
                     <h3>Choose interval<br>
                     <small>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</small></h3>
                         <select class="form-control" id="chooseInterval">
@@ -56,9 +56,9 @@
                           <option>4</option>
                           <option>5</option>
                         </select>
-                </div>
+                </div> -->
             </div>
-            <div class="row">
+            <!-- <div class="row">
                 <div class="form-group col-lg-12 col-md-3 col-xs-12">
                     <h3>What to show<br>
                     <small>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</small></h3>
@@ -85,6 +85,7 @@
             </div>
 
                     <button type="button" class="btn btn-info" style="margin-bottom:1%;">Show graph</button>
+                    -->
         </div>
         </div>
 
