@@ -63,7 +63,7 @@
               <!-- small box -->
               <div class="small-box bg-red">
                 <div class="inner">
-                  <h3>14.38 <sup style="font-size: 20px">h</sup></h3>
+                  <h3>{{cpTimeLeft}} <sup style="font-size: 20px">h</sup></h3>
 
                   <p>Time left</p>
                 </div>
@@ -110,9 +110,10 @@ export default {
     return {
       podaci: null,//[{"i1":1,"i2":4},{"i1":2,"i2":6}]
       // Control Panel small box sample data
-      cpBatteryVoltage:12.0,
-      cpCurrentConsumption:5.45,
-      cpCurrentCharging:4.31,
+      cpBatteryVoltage:"clac",
+      cpCurrentConsumption:"clac",
+      cpCurrentCharging:"clac",
+      cpTimeLeft: "clac"
     }
     },
     created() {
@@ -125,6 +126,21 @@ export default {
           vm.cpBatteryVoltage = data[data.length-1].u2;
           vm.cpCurrentCharging = data[data.length-1].i1;
           vm.cpCurrentConsumption = Math.abs(parseFloat(data[data.length-1].i1) - parseFloat(data[data.length-1].i2));
+
+          // battery capacity = 210Ah
+          // TimeLeft = capacity / consumption
+          let batteryCapacity = parseInt(210);
+          let consumption = vm.cpCurrentConsumption;
+          let charging = vm.cpCurrentCharging;
+          // console.log("charging" + charging);
+          // console.log("battery" + batteryCapacity);
+          // console.log("consumption" + consumption);
+
+          if(charging == 0) {
+              vm.cpTimeLeft = batteryCapacity / consumption;
+          } else {
+              vm.cpTimeLeft = "Charging";
+          }
         })
 
     },
