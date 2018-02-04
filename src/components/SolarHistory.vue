@@ -24,68 +24,19 @@
                 <div class="form-group col-lg-6 col-md-12 col-xs-12">
                     <h3>Choose date range<br>
                     <small>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</small></h3>
-                    <div class="form-group">
-                        <div class='input-group date' id='startdate'>
-                            <input type='text' class="form-control" />
-                            <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-calendar"></span>
-                            </span>
+
+                    <div class="input-group">
+
+                        <!-- /btn-group -->
+                        <input type="text" class="form-control"  placeholder="dd.mm.yy">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-warning">Show</button>
                         </div>
                     </div>
                 </div>
-                <!-- <div class="form-group col-lg-4 col-md-3 col-xs-12">
-                    <h3 style="visibility: hidden;">Choose date<br>
-                    <small>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</small></h3>
-                    <div class="form-group">
-                        <div class='input-group date' id='enddate'>
-                            <input type='text' class="form-control" />
-                            <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-calendar"></span>
-                            </span>
-                        </div>
-                    </div>
-                </div> -->
 
-                <!-- <div class="form-group col-lg-4 col-md-3 col-xs-12">
-                    <h3>Choose interval<br>
-                    <small>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</small></h3>
-                        <select class="form-control" id="chooseInterval">
-                          <option>1</option>
-                          <option>2</option>
-                          <option>3</option>
-                          <option>4</option>
-                          <option>5</option>
-                        </select>
-                </div> -->
-            </div>
-            <!-- <div class="row">
-                <div class="form-group col-lg-12 col-md-3 col-xs-12">
-                    <h3>What to show<br>
-                    <small>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</small></h3>
-                    <label class="checkbox-inline">
-                      <input type="checkbox" id="inlineCheckbox1" value="option1" checked> Voltage in
-                    </label>
-                    <label class="checkbox-inline">
-                      <input type="checkbox" id="inlineCheckbox2" value="option2" checked> Battery voltage
-                    </label>
-                    <label class="checkbox-inline">
-                      <input type="checkbox" id="inlineCheckbox3" value="option3"> Voltage out
-                    </label>
-                    <label class="checkbox-inline">
-                      <input type="checkbox" id="inlineCheckbox4" value="option4"> Current in
-                    </label>
-                    <label class="checkbox-inline">
-                      <input type="checkbox" id="inlineCheckbox5" value="option5"> Battery current
-                    </label>
-                    <label class="checkbox-inline">
-                      <input type="checkbox" id="inlineCheckbox6" value="option6"> Battery out
-                    </label>
-
-                </div>
             </div>
 
-                    <button type="button" class="btn btn-info" style="margin-bottom:1%;">Show graph</button>
-                    -->
         </div>
         </div>
 
@@ -93,11 +44,8 @@
         <div class="content">
         <div class="row">
         <div class="col-lg-12 col-md-12 col-xs-12">
-            <h3>
-              History
-              <small>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur debitis sapiente sequi quidem nobis, dolor ratione molestias soluta eius dolorem autem eligendi, veritatis inventore ducimus expedita tempore aperiam vitae officiis!</small></h3>
-          </h3>
-          <div id="container-voltage">
+
+          <div id="container-history">
 
           </div>
         </div>
@@ -122,7 +70,7 @@ created() {
 methods: {
     solarhistory () {
     $(function () {
-                      var myChartVoltage = Highcharts.chart('container-voltage', {
+        var myChartHistory = Highcharts.chart('container-history', {
 
                       title: {
                           text: 'Voltage and current'
@@ -138,7 +86,7 @@ methods: {
 
                       yAxis: {
                           title: {
-                              text: 'Voltage'
+                              text: 'Voltage and current'
                           }
                       },
 
@@ -156,9 +104,6 @@ methods: {
                       }, {
                           name: 'Battery voltage',
                           data: [12,12.5,12,12,12,12,12,12,12,12]
-                      }, {
-                          name: 'Voltage out',
-                          data: [11, 11, 11, 11, 11, 0, 0, 0, 0, 0]
                       }, {
                           name: 'Current in',
                           data: [1,1,1.25,1.5,1.75,2,2,2,2,2]
