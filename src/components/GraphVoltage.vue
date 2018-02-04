@@ -12,71 +12,102 @@
 <script>
 export default {
   name: "GraphVoltage",
+  props:["graphData"],
   data() {
-    return {};
+    return {
+      voltageArr1: [],
+      voltageArr2: [],
+      timestampArr: []
+    };
   },
   created() {
-    $(function() {
-      var myChartVoltage = Highcharts.chart("container-voltage", {
-        title: {
-          text: "Voltage"
-        },
 
-        // subtitle: {
-        //     text: 'Source: thesolarfoundation.com'
-        // },
+this.solarvoltage();
 
-        xAxis: {
-          type: "datetime"
-        },
+  },
+  methods:{
 
-        yAxis: {
+    solarvoltage(){
+      let vm = this;
+      for(let i=0;i<this.graphData.length;i++) {
+        let voltage = this.graphData[i];
+        let voltageEntryTime = parseInt(voltage.unixtime);
+        //console.log(voltageEntryTime);
+        let voltageTime = Date.now();
+        // show graph only for last 24h
+        if(voltageEntryTime > (voltageTime - 86400000)){
+          this.voltageArr1.push(parseFloat(voltage.u1));
+          this.voltageArr2.push(parseFloat(voltage.u2));
+          //this.voltageArr3.push(Math.abs(parseFloat(voltage.u1) - parseFloat(voltage.u2)));
+          let time = new Date(voltageEntryTime);
+          this.timestampArr.push(time.getHours() + ":" + time.getMinutes());
+          // this.timestampArr.push(voltageEntryTime);
+        }
+
+
+      }
+      // console.log(this.graphData);
+      console.log("voltageArr1:"+this.voltageArr1);
+      console.log("voltageArr2:"+this.voltageArr2);
+      // console.log("voltageArr3:"+this.voltageArr3);
+      $(function() {
+          //var currentEntryTime = (currentTime - 86400000);
+        var myChartVoltage = Highcharts.chart("container-voltage", {
           title: {
-            text: "Voltage"
-          }
-        },
-
-        plotOptions: {
-          series: {
-            pointStart: Date.UTC(2017, 9, 11),
-            pointInterval: 1800 * 1000 // half hour
-            //pointInterval: 24 * 3600 * 1000 // one day
-          }
-        },
-
-        series: [
-          {
-            name: "Voltage in",
-            data: [10, 10.5, 11, 11.5, 12, 12.5, 13, 13.5, 14, 14.5]
+            text: "Electricity Voltage"
           },
-          {
-            name: "Battery voltage",
-            data: [12, 12.5, 12, 12, 12, 12, 12, 12, 12, 12]
+          // subtitle: {
+          //     text: 'Source: thesolarfoundation.com'
+          // },
+          xAxis: {
+            //type: "datetime"
+            categories: vm.timestampArr
           },
-          {
-            name: "Voltage out",
-            data: [11, 11, 11, 11, 11, 0, 0, 0, 0, 0]
-          }
-        ],
-
-        responsive: {
-          rules: [
+          yAxis: {
+            title: {
+              text: "Voltage"
+            }
+          },
+          plotOptions: {
+            series: {
+              //pointStart: +new Date()+3600000,
+              //pointInterval: 300000
+            }
+          },
+          series: [
             {
-              condition: {
-                maxWidth: 500
-              },
-              chartOptions: {
-                legend: {
-                  layout: "horizontal",
-                  align: "center",
-                  verticalAlign: "bottom"
+              name: "Voltage in",
+              data: vm.voltageArr1//[1, 1, 1.25, 1.5, 1.75, 2, 3, 3, 3, 3]
+            },
+            {
+              name: "Battery Voltage",
+              data: vm.voltageArr2//[-2, -2, -1, 0, 1, 2, 3, 3, 3, 3]
+            },
+            // {
+            //   name: "Current out",
+            //   data: vm.currentArr3//[3, 3, 3, 3, 3, 2, 0, 1, 1, 1]
+            // }
+          ],
+          responsive: {
+            rules: [
+              {
+                condition: {
+                  maxWidth: 500
+                },
+                chartOptions: {
+                  legend: {
+                    layout: "horizontal",
+                    align: "center",
+                    verticalAlign: "bottom"
+                  }
                 }
               }
-            }
-          ]
-        }
+            ]
+          }
+        });
       });
-    });
+
+    }
   }
 };
 </script>

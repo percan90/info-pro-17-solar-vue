@@ -80,7 +80,7 @@
             <div class="row">
 
                 <!-- Highcharts.js -->
-                <GraphVoltage />
+                <GraphVoltage v-if="podaci" :graphData="podaci"/>
 
                 <GraphCurrent v-if="podaci" :graphData="podaci" />
             </div>
@@ -112,7 +112,7 @@ export default {
       // Control Panel small box sample data
       cpBatteryVoltage:12.0,
       cpCurrentConsumption:5.45,
-      cpCurrentCharging:4.31
+      cpCurrentCharging:4.31,
     }
     },
     created() {
