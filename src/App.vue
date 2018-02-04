@@ -36,9 +36,9 @@
         </router-link>
         </li>
 
-        <router-link to="/settings" exact tag="li" class="treeview">
+        <!-- <router-link to="/settings" exact tag="li" class="treeview">
             <a><i class="fa fa-gears"></i> <span>Settings</span></a>
-        </router-link>
+        </router-link> -->
         <router-link to="/history" exact tag="li" class="treeview">
             <a><i class="fa fa-arrow-circle-right"></i> <span>History</span></a>
         </router-link>

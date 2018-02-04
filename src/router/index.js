@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Dashboard from '@/components/Dashboard'
 import SolarHistory from '@/components/SolarHistory'
-import Settings from '@/components/Settings'
+//import Settings from '@/components/Settings'
 
 Vue.use(Router)
 
@@ -19,10 +19,10 @@ linkActiveClass : 'active',
       name: 'History',
       component: SolarHistory
   },
-  {
-      path: '/settings',
-      name: 'Settings',
-      component: Settings
-  },
+  // {
+  //     path: '/settings',
+  //     name: 'Settings',
+  //     component: Settings
+  // },
   ]
 })
