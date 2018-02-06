@@ -79,8 +79,8 @@
 
             <div class="row">
 
-                <!-- Highcharts.js -->
-                <GraphVoltage v-if="podaci" :graphData="podaci"/>
+                <!-- graphCurrentConsumption = show output voltage if current consumption > 0 -->
+                <GraphVoltage v-if="podaci" :graphData="podaci" :graphCurrentConsumption="cpCurrentConsumption"/>
 
                 <GraphCurrent v-if="podaci" :graphData="podaci" />
             </div>
@@ -92,7 +92,12 @@
                     Maps
                     <small>Where is your system?</small>
                 </h3>
-                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d397267.31332665676!2d14.220644168366242!3d44.8948372074915!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2shr!4v1512331494174" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+                <div id="map"></div>
+                <!-- API key: AIzaSyBYc8W1NHeWJDt8mfcY9K-LihkJK_VAdEI
+                    width="100%" height="450"-->
+                <!-- <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d397267.31332665676!2d14.220644168366242!3d44.8948372074915!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2shr!4v1512331494174" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe> -->
+                <!-- <iframe :src="'https://www.google.com/maps/embed/v1/place?q='+gps1+','+gps2+'&amp;key=AIzaSyD5Tvs36CoTCn62jYIluimTkkogwv4OerU'" width="100%" height="450" frameborder="0" style="border:0" ></iframe> -->
+                <iframe :src="'http://maps.google.com/maps?q=' + gps1 + ','+ gps2 + '&z=17&output=embed'" width="100%" height="450" frameborder="0" style="border:0"></iframe>
               </div>
           </div>
         </section>
@@ -110,10 +115,12 @@ export default {
     return {
       podaci: null,//[{"i1":1,"i2":4},{"i1":2,"i2":6}]
       // Control Panel small box sample data
-      cpBatteryVoltage:"clac",
-      cpCurrentConsumption:"clac",
-      cpCurrentCharging:"clac",
-      cpTimeLeft: "clac"
+      cpBatteryVoltage:"calc",
+      cpCurrentConsumption:"calc",
+      cpCurrentCharging:"calc",
+      cpTimeLeft: "calc",
+      gps1: null,
+      gps2: null
     }
     },
     created() {
@@ -126,7 +133,11 @@ export default {
           vm.cpBatteryVoltage = data[data.length-1].u2;
           vm.cpCurrentCharging = data[data.length-1].i1;
           vm.cpCurrentConsumption = Math.abs(parseFloat(data[data.length-1].i1) - parseFloat(data[data.length-1].i2));
+          // vm.gps1 = data[data.length-1].gps1;
+          // vm.gps2 = data[data.length-1].gps2;
 
+          vm.gps1 = "59.91631";
+          vm.gps2 = "10.7459999";
           // battery capacity = 210Ah
           // TimeLeft = capacity / consumption
           let batteryCapacity = parseInt(210);
@@ -141,7 +152,9 @@ export default {
           } else {
               vm.cpTimeLeft = "Charging";
           }
-        })
+
+
+      })
 
     },
     methods: {
