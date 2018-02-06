@@ -12,11 +12,12 @@
 <script>
 export default {
   name: "GraphVoltage",
-  props:["graphData"],
+  props:["graphData", "graphCurrentConsumption"],
   data() {
     return {
       voltageArr1: [],
       voltageArr2: [],
+      voltageArr3: [],
       timestampArr: []
     };
   },
@@ -38,6 +39,14 @@ this.solarvoltage();
         if(voltageEntryTime > (voltageTime - 86400000)){
           this.voltageArr1.push(parseFloat(voltage.u1));
           this.voltageArr2.push(parseFloat(voltage.u2));
+
+          // check if have current consumption, voltage is 12
+          // abs of I1 - I2
+          if (Math.abs(parseFloat(voltage.i1) - parseFloat(voltage.i2))) {
+              this.voltageArr3.push(12);
+          } else {
+              this.voltageArr3.push(0);
+          }
           //this.voltageArr3.push(Math.abs(parseFloat(voltage.u1) - parseFloat(voltage.u2)));
           let time = new Date(voltageEntryTime);
           this.timestampArr.push(time.getHours() + ":" + time.getMinutes());
@@ -47,8 +56,8 @@ this.solarvoltage();
 
       }
       // console.log(this.graphData);
-      console.log("voltageArr1:"+this.voltageArr1);
-      console.log("voltageArr2:"+this.voltageArr2);
+      // console.log("voltageArr1:"+this.voltageArr1);
+      // console.log("voltageArr2:"+this.voltageArr2);
       // console.log("voltageArr3:"+this.voltageArr3);
       $(function() {
           //var currentEntryTime = (currentTime - 86400000);
@@ -83,10 +92,10 @@ this.solarvoltage();
               name: "Battery Voltage",
               data: vm.voltageArr2//[-2, -2, -1, 0, 1, 2, 3, 3, 3, 3]
             },
-            // {
-            //   name: "Current out",
-            //   data: vm.currentArr3//[3, 3, 3, 3, 3, 2, 0, 1, 1, 1]
-            // }
+            {
+              name: "Voltage out",
+              data: vm.voltageArr3//[3, 3, 3, 3, 3, 2, 0, 1, 1, 1]
+            }
           ],
           responsive: {
             rules: [
