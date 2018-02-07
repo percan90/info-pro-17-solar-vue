@@ -28,9 +28,9 @@
                     <div class="input-group">
 
                         <!-- /btn-group -->
-                        <input type="text" class="form-control"  placeholder="dd.mm.yy">
+                        <input v-model="queryDateHistory" type="date" class="form-control"  placeholder="dd.mm.yy">
                         <div class="input-group-btn">
-                            <button type="button" class="btn btn-warning">Show</button>
+                            <button @click="showHistory" type="button" class="btn btn-warning">Show</button>
                         </div>
                     </div>
                 </div>
@@ -61,78 +61,163 @@ export default {
   name: 'SolarHistory',
   data () {
     return {
+      queryDateHistory: "2018-01-24",
+      podaci: null,
+      voltageArr1: [],
+      voltageArr2: [],
+      voltageArr3: [],
+      timestampArr: [],
+      currentArr1: [],
+      currentArr2: [],
+      currentArr3: []
 
     }
 },
 created() {
-    this.solarhistory();
+    //this.solarhistory();
 },
 methods: {
-    solarhistory () {
-    $(function () {
-        var myChartHistory = Highcharts.chart('container-history', {
 
-                      title: {
-                          text: 'Voltage and current'
-                      },
+    solarHistory () {
+      let vm = this;
+      $(function () {
+          var myChartHistory = Highcharts.chart('container-history', {
 
-                      subtitle: {
-                          text: '11.10.2017 - 20.10.2017'
-                      },
+                        title: {
+                            text: 'Voltage and current'
+                        },
 
-                      xAxis: {
-                          type: 'datetime'
-                      },
+                        subtitle: {
+                            text: vm.fixDate()
+                        },
 
-                      yAxis: {
-                          title: {
-                              text: 'Voltage and current'
-                          }
-                      },
+                        xAxis: {
+                            //type: 'datetime'
+                            categories: vm.timestampArr
+                        },
 
-                      plotOptions: {
-                          series: {
-                              pointStart: Date.UTC(2017, 9, 11),
-                              //pointInterval: 1800 * 1000 // half hour
-                              pointInterval: 24 * 3600 * 1000 // one day
-                          }
-                      },
+                        yAxis: {
+                            title: {
+                                text: 'Voltage and current'
+                            }
+                        },
 
-                      series: [{
-                          name: 'Voltage in',
-                          data: [10,10.5,11,11.5,12,12.5,13,13.5,14,14.5]
-                      }, {
-                          name: 'Battery voltage',
-                          data: [12,12.5,12,12,12,12,12,12,12,12]
-                      }, {
-                          name: 'Current in',
-                          data: [1,1,1.25,1.5,1.75,2,2,2,2,2]
-                      }, {
-                          name: 'Battery current',
-                          data: [-2,-2,-1,0,2,2,3,3,3,3]
-                      }, {
-                          name: 'Current out',
-                          data: [3,3,3,3,3,4,0,1,1,1]
-                      }],
+                        plotOptions: {
+                            series: {
+                                // pointStart: Date.UTC(2017, 9, 11),
+                                // //pointInterval: 1800 * 1000 // half hour
+                                // pointInterval: 24 * 3600 * 1000 // one day
+                            }
+                        },
 
-                      responsive: {
-                          rules: [{
-                              condition: {
-                                  maxWidth: 500
-                              },
-                              chartOptions: {
-                                  legend: {
-                                      layout: 'horizontal',
-                                      align: 'center',
-                                      verticalAlign: 'bottom'
-                                  }
-                              }
-                          }]
-                      }
+                        series: [{
+                            name: 'Voltage in',
+                            data: vm.voltageArr1
+                        }, {
+                            name: 'Battery voltage',
+                            data: vm.voltageArr2
+                        }, {
+                            name: 'Voltage out',
+                            data: vm.voltageArr3
+                        }, {
+                            name: 'Current in',
+                            data: vm.currentArr1
+                        }, {
+                            name: 'Battery current',
+                            data: vm.currentArr2
+                        }, {
+                            name: 'Current out',
+                            data: vm.currentArr3
+                        }],
 
-                  });
-                  });
-}},}
+                        responsive: {
+                            rules: [{
+                                condition: {
+                                    maxWidth: 500
+                                },
+                                chartOptions: {
+                                    legend: {
+                                        layout: 'horizontal',
+                                        align: 'center',
+                                        verticalAlign: 'bottom'
+                                    }
+                                }
+                            }]
+                        }
+
+                    });
+                    });
+},
+clearArrays() {
+  this.voltageArr1 = [];
+  this.voltageArr2 = [];
+  this.voltageArr3 = [];
+  this.timestampArr = [];
+  this.currentArr1 = [];
+  this.currentArr2 = [];
+  this.currentArr3 = [];
+},
+fixDate() {
+  // new array, get date and reverse it
+  let dateArr = this.queryDateHistory.split("-");
+  let day = dateArr[2];
+  let month = dateArr[1];
+  let year = dateArr[0];
+  // if is day or month with 0 ()< 10), remove 0
+  if(parseInt(day) < 10) {
+      day = day[1];
+  }
+  if(parseInt(month) < 10) {
+      month = month[1];
+  }
+  // create url for history query
+  return day + "." + month + "." + year;
+},
+str_pad(n) {
+    return String("00" + n).slice(-2);
+},
+showHistory() {
+  // delete all arrays
+  this.clearArrays();
+
+  let vm = this;
+
+  //console.log(dateUrl);
+
+  let url = "https://solarprojekt.000webhostapp.com/customDateJSON.php?queryDate=" + this.fixDate();
+  //console.log("url: " +url);
+  //$.get("https://solarprojekt.000webhostapp.com/customDateJSON.php?queryDate=" +dateUrl).then(data => {
+  $.get(url).then(data => {
+    //console.log(data);
+    vm.podaci = data;
+
+    // foreach - pass through all data for queryDate
+    data.forEach(record => {
+      vm.voltageArr1.push(parseFloat(record.u1));
+      vm.voltageArr2.push(parseFloat(record.u2));
+      if (Math.abs(parseFloat(record.i1) - parseFloat(record.i2))) {
+          vm.voltageArr3.push(12);
+      } else {
+          vm.voltageArr3.push(0);
+      }
+      vm.currentArr1.push(parseFloat(record.i1));
+      vm.currentArr2.push(parseFloat(record.i2));
+      vm.currentArr3.push(Math.abs(parseFloat(record.i1) - parseFloat(record.i2)));
+
+      let recordEntryTime = parseInt(record.unixtime);
+      let time = new Date(recordEntryTime);
+      // str_pad is for leading zeroes (08:00 instead of 8:0) :)
+      let hours = vm.str_pad(time.getHours());
+      let minutes = vm.str_pad(time.getMinutes());
+      vm.timestampArr.push(hours + ":" + minutes);
+
+    }); // end foreach
+
+    vm.solarHistory();
+});
+}
+}
+,}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
