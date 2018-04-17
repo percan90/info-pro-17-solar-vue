@@ -126,18 +126,18 @@ export default {
     created() {
         let vm = this;
         // get json data
-        $.get("https://solarprojekt.000webhostapp.com/getJSON.php").then(data => {
+        $.get("http://pauro.ddns.net/getJSON.php").then(data => {
           //console.log(data);
           vm.podaci = data;
           // get only last data
-          vm.cpBatteryVoltage = data[data.length-1].u2;
-          vm.cpCurrentCharging = data[data.length-1].i1;
-          vm.cpCurrentConsumption = Math.abs(parseFloat(data[data.length-1].i1) - parseFloat(data[data.length-1].i2));
-          // vm.gps1 = data[data.length-1].gps1;
-          // vm.gps2 = data[data.length-1].gps2;
+          vm.cpBatteryVoltage = data[data.length-1].battery_voltage;
+          vm.cpCurrentCharging = data[data.length-1].charging_current;
+          vm.cpCurrentConsumption = Math.abs(parseFloat(data[data.length-1].charging_current) - parseFloat(data[data.length-1].battery_current));
+          vm.gps1 = data[data.length-1].gps1;
+          vm.gps2 = data[data.length-1].gps2;
 
-          vm.gps1 = "59.91631";
-          vm.gps2 = "10.7459999";
+          //vm.gps1 = "59.91631";
+          //vm.gps2 = "10.7459999";
           // battery capacity = 210Ah
           // TimeLeft = capacity / consumption
           let batteryCapacity = parseInt(210);

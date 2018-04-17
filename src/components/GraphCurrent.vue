@@ -37,9 +37,9 @@ this.solarcurrent();
         let currentTime = Date.now();
         // show graph only for last 24h
         if(currentEntryTime > (currentTime - 86400000)){
-          this.currentArr1.push(parseFloat(current.i1));
-          this.currentArr2.push(parseFloat(current.i2));
-          this.currentArr3.push(Math.abs(parseFloat(current.i1) - parseFloat(current.i2)));
+          this.currentArr1.push(parseFloat(current.charging_current));
+          this.currentArr2.push(parseFloat(current.battery_current));
+          this.currentArr3.push(Math.abs(parseFloat(current.charging_current) - parseFloat(current.battery_current)));
           let time = new Date(currentEntryTime);
           this.timestampArr.push(time.getHours() + ":" + time.getMinutes());
           // this.timestampArr.push(currentEntryTime);

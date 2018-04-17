@@ -37,12 +37,12 @@ this.solarvoltage();
         let voltageTime = Date.now();
         // show graph only for last 24h
         if(voltageEntryTime > (voltageTime - 86400000)){
-          this.voltageArr1.push(parseFloat(voltage.u1));
-          this.voltageArr2.push(parseFloat(voltage.u2));
+          this.voltageArr1.push(parseFloat(voltage.charging_current));
+          this.voltageArr2.push(parseFloat(voltage.battery_voltage));
 
           // check if have current consumption, voltage is 12
           // abs of I1 - I2
-          if (Math.abs(parseFloat(voltage.i1) - parseFloat(voltage.i2))) {
+          if (Math.abs(parseFloat(voltage.charging_current) - parseFloat(voltage.battery_current))) {
               this.voltageArr3.push(12);
           } else {
               this.voltageArr3.push(0);

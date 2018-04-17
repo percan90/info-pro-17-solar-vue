@@ -23,7 +23,7 @@
             <div class="controls-row row">
                 <div class="form-group col-lg-6 col-md-12 col-xs-12">
                     <h3>Choose date range<br>
-                    <small>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</small></h3>
+                    <small>Show 24h history for selected date.</small></h3>
 
                     <div class="input-group">
 
@@ -61,7 +61,7 @@ export default {
   name: 'SolarHistory',
   data () {
     return {
-      queryDateHistory: "2018-01-24",
+      queryDateHistory: "2018-04-01",
       podaci: null,
       voltageArr1: [],
       voltageArr2: [],
@@ -75,6 +75,7 @@ export default {
 },
 created() {
     //this.solarhistory();
+    this.queryDateHistory = new Date().toISOString().split('T')[0];
 },
 methods: {
 
@@ -184,25 +185,25 @@ showHistory() {
 
   //console.log(dateUrl);
 
-  let url = "https://solarprojekt.000webhostapp.com/customDateJSON.php?queryDate=" + this.fixDate();
-  //console.log("url: " +url);
+  let url = "http://pauro.ddns.net/customDateJSON.php?queryDate=" + this.fixDate();
+  console.log("url: " +url);
   //$.get("https://solarprojekt.000webhostapp.com/customDateJSON.php?queryDate=" +dateUrl).then(data => {
   $.get(url).then(data => {
-    //console.log(data);
+    console.log(data);
     vm.podaci = data;
 
     // foreach - pass through all data for queryDate
     data.forEach(record => {
-      vm.voltageArr1.push(parseFloat(record.u1));
-      vm.voltageArr2.push(parseFloat(record.u2));
-      if (Math.abs(parseFloat(record.i1) - parseFloat(record.i2))) {
+      vm.voltageArr1.push(parseFloat(record.charging_voltage));
+      vm.voltageArr2.push(parseFloat(record.battery_voltage));
+      if (Math.abs(parseFloat(record.charging_current) - parseFloat(record.battery_current))) {
           vm.voltageArr3.push(12);
       } else {
           vm.voltageArr3.push(0);
       }
-      vm.currentArr1.push(parseFloat(record.i1));
-      vm.currentArr2.push(parseFloat(record.i2));
-      vm.currentArr3.push(Math.abs(parseFloat(record.i1) - parseFloat(record.i2)));
+      vm.currentArr1.push(parseFloat(record.charging_current));
+      vm.currentArr2.push(parseFloat(record.battery_current));
+      vm.currentArr3.push(Math.abs(parseFloat(record.charging_current) - parseFloat(record.battery_current)));
 
       let recordEntryTime = parseInt(record.unixtime);
       let time = new Date(recordEntryTime);
