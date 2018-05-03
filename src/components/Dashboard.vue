@@ -147,7 +147,7 @@ export default {
           // console.log("battery" + batteryCapacity);
           // console.log("consumption" + consumption);
 
-          if(charging == 0) {
+          if(charging < 0.1) {
               vm.cpTimeLeft = batteryCapacity / consumption;
           } else {
               vm.cpTimeLeft = "Charging";
