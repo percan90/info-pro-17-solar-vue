@@ -196,14 +196,14 @@ showHistory() {
     data.forEach(record => {
       vm.voltageArr1.push(parseFloat(record.charging_voltage));
       vm.voltageArr2.push(parseFloat(record.battery_voltage));
-      if (Math.abs(parseFloat(record.charging_current) - parseFloat(record.battery_current))) {
+      if (Math.abs(parseFloat(record.charging_voltage) - parseFloat(record.battery_voltage))) {
           vm.voltageArr3.push(12);
       } else {
           vm.voltageArr3.push(0);
       }
-      vm.currentArr1.push(parseFloat(record.charging_current));
-      vm.currentArr2.push(parseFloat(record.battery_current));
-      vm.currentArr3.push(Math.abs(parseFloat(record.charging_current) - parseFloat(record.battery_current)));
+      vm.currentArr1.push(parseFloat(record.charging_current)/1000);
+      vm.currentArr2.push(parseFloat(record.battery_current)/1000);
+      vm.currentArr3.push(Math.abs(parseFloat(record.charging_current) - parseFloat(record.battery_current))/1000);
 
       let recordEntryTime = parseInt(record.unixtime);
       let time = new Date(recordEntryTime);

@@ -131,8 +131,8 @@ export default {
           vm.podaci = data;
           // get only last data
           vm.cpBatteryVoltage = data[data.length-1].battery_voltage;
-          vm.cpCurrentCharging = data[data.length-1].charging_current;
-          vm.cpCurrentConsumption = Math.abs(parseFloat(data[data.length-1].charging_current) - parseFloat(data[data.length-1].battery_current));
+          vm.cpCurrentCharging = (data[data.length-1].charging_current)/1000;
+          vm.cpCurrentConsumption = Math.abs(parseFloat(data[data.length-1].charging_current) - parseFloat(data[data.length-1].battery_current))/1000;
           vm.gps1 = data[data.length-1].gps1;
           vm.gps2 = data[data.length-1].gps2;
 
@@ -140,7 +140,7 @@ export default {
           //vm.gps2 = "10.7459999";
           // battery capacity = 210Ah
           // TimeLeft = capacity / consumption
-          let batteryCapacity = parseInt(210);
+          let batteryCapacity = parseInt(60);
           let consumption = vm.cpCurrentConsumption;
           let charging = vm.cpCurrentCharging;
           // console.log("charging" + charging);
