@@ -132,6 +132,7 @@ export default {
           // get only last data
           vm.cpBatteryVoltage = data[data.length-1].battery_voltage;
           vm.cpCurrentCharging = (data[data.length-1].charging_current)/1000;
+          console.log("cpCurrentCharging: " + vm.cpCurrentCharging);
           vm.cpCurrentConsumption = Math.abs(parseFloat(data[data.length-1].charging_current) - parseFloat(data[data.length-1].battery_current))/1000;
           vm.gps1 = data[data.length-1].gps1;
           vm.gps2 = data[data.length-1].gps2;
